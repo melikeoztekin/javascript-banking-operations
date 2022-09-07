@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    outline: none;
+}
+
+html,
+body,
+ul,
+ol {
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+}
+
+a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+figure {
+    margin: 0;
+}
+
+img {
+    display: inline-block;
+    max-width: 100%;
+}
+
+a i {
+    font-size: 16px;
+}
+
+a .fa-file-lines {
+    color: blue;
+}
+
+a .fa-tag {
+    color: green;
+}
+
+a .fa-trash-can {
+    color: red
+}
+
+.customer-list-item {
+    cursor: pointer;
+}
+
+.customer-list-item:hover {
+    background-color: #f1f1f1;
+}
+
+.product-list-item {
+    cursor: pointer;
+}
+
+.product-list-item:hover {
+    background-color: #f1f1f1;
+}
