@@ -1,19 +1,50 @@
 let customerList = [
-  { id: 1, firstName: "Leanne", lastName: "Graham", balance: 2500 },
-  { id: 2, firstName: "Ervin", lastName: "Howell", balance: 6420 },
-  { id: 3, firstName: "Clementine", lastName: "Bauch", balance: 1570 },
-  { id: 4, firstName: "Patricia", lastName: "Lebsack", balance: 580 },
+  { id: 1, firstName: "Leanne", lastName: "Graham", balance: 6000 },
+  { id: 2, firstName: "Ervin", lastName: "Howell", balance: 7000 },
+  { id: 3, firstName: "Clementine", lastName: "Bauch", balance: 8000 },
+  { id: 4, firstName: "Patricia", lastName: "Lebsack", balance: 9000 },
 ];
 
 let productList = [
   { id: 1, productName: "Chai", price: 120, stockAmount: 12 },
-  { id: 2, productName: "Aniseed Syrup", price: 140, stockAmount: 25 },
-  { id: 3, productName: "Mishi Kobe Niku", price: 160, stockAmount: 8 },
-  { id: 4, productName: "Tofu", price: 180, stockAmount: 12 },
-  { id: 5, productName: "Genen Shouyu", price: 200, stockAmount: 18 },
+  { id: 2, productName: "Aniseed Syrup", price: 140, stockAmount: 13 },
+  { id: 3, productName: "Mishi Kobe Niku", price: 160, stockAmount: 14 },
+  { id: 4, productName: "Tofu", price: 180, stockAmount: 15 },
+  { id: 5, productName: "Genen Shouyu", price: 200, stockAmount: 16 },
 ];
 
-displayCustomer(); // en başta oluşturulan default müşteri listesi gelsin diye ekledik
+let bankStatementList = [
+  {
+    id: 1,
+    customerId: 1,
+    recipient: "Ervin Howell",
+    amount: 200,
+    date: "02.09.2022",
+  },
+  {
+    id: 2,
+    customerId: 1,
+    recipient: "Clementine Bauch",
+    amount: 400,
+    date: "05.09.2022",
+  },
+  {
+    id: 3,
+    customerId: 2,
+    recipient: "Ervin Howell",
+    amount: 500,
+    date: "02.09.2022",
+  },
+  {
+    id: 4,
+    customerId: 2,
+    recipient: "Leanne Graham",
+    amount: 200,
+    date: "05.09.2022",
+  },
+];
+
+displayCustomer();
 displayProduct();
 customerSelect();
 productSelect();
@@ -27,37 +58,35 @@ const btnAllRemoveProduct = document.getElementById("btnAllRemoveProduct");
 const customerHistory = document.getElementById("liveCustomerHistory");
 const historyHeader = document.getElementById("historyHeader");
 const btnClose = document.getElementById("btnClose");
+const btnSend = document.getElementById("btnSend");
+const amount = document.getElementById("amount");
 
 /* müşteri ekleme fonksiyonu*/
 btnAddCustomer.addEventListener("click", addCustomer);
 function addCustomer() {
-  //eğer inputların içi boşsa uyarı ver değilse ekleme işlemini gerçekleştir.
   if (firstName.value == "" || lastName.value == "" || balance.value == "") {
     alert("Fill out the form completely!");
   } else {
     customerList.push({
-      id: customerList.length + 1, //idnin yeni gelen kullanıcı ile 1 artarak gelmesini sağladık
+      id: customerList.length + 1,
       firstName: firstName.value,
       lastName: lastName.value,
       balance: balance.value,
     });
     alert("New customer added.");
-    //ekleme işlemi sonrası inputların içini temizledik
     firstName.value = "";
     lastName.value = "";
     balance.value = null;
   }
-  customerSelect(); // ekleme işleminde selectlere de müşteri bilgisi eklemesi için
-  displayCustomer(); //ekleme işlemi gerçekleşince yeni listeyi görüntülemedi
-  event.preventDefault(); //sayfanın her click işlemi ile güncellenmesini engelledik
+  customerSelect();
+  displayCustomer();
+  event.preventDefault();
 }
 
 /* müşteri bilgilerini listeleme işlemi */
 function displayCustomer() {
   let customerContainer = document.getElementById("customerContainer");
-  customerContainer.innerHTML = ""; // her müşteri ekleme işleminde sabit diziden gelenlerin tekrarlanmasını engelledik
-
-  // eğer user list boşsa silindi ya da hiç eklenmediyse mesaj çıkar müşteri varsa listeler
+  customerContainer.innerHTML = "";
   if (customerList.length == 0) {
     customerContainer.innerHTML = `<tr><td colspan="5"><p class="text-center">Customer list is empty!</p></td></tr>`;
   } else {
@@ -77,14 +106,12 @@ function displayCustomer() {
             </td>
         </tr>`;
       customerContainer.insertAdjacentHTML("beforeend", customerTr);
-      //yeni eklenen müşterinin listede sona tr elementi olarak eklenmesini sağladık
     }
   }
 }
 
 /* müşteri silme fonksiyonu */
 function removeCustomer(id) {
-  //console.log("silme fonksiyonu çalıştı" + id);
   let deletedId;
   for (let index in customerList) {
     if (customerList[index].id == id) {
@@ -245,3 +272,42 @@ btnClose.addEventListener("click", function () {
   customerHistory.innerHTML = "";
   historyHeader.innerHTML = `<small>Click to view customer information</small>`;
 });
+
+// müşteriler arası para transferi
+btnSend.addEventListener("click", sendMoney);
+function sendMoney() {
+  if (
+    customerSelectFrom.value == "" ||
+    customerSelectTo.value == "" ||
+    amount.value == ""
+  ) {
+    alert("Fill out the form completely!");
+  } else {
+    let sender = customerList.filter((x) => x.id == customerSelectFrom.value);
+    let recipient = customerList.filter((x) => x.id == customerSelectTo.value);
+    if (sender.length > 0 && recipient.length > 0) {
+      if (sender[0].id !== recipient[0].id) {
+        if (sender[0].balance > amount.value) {
+          sender[0].balance =
+            parseFloat(sender[0].balance) - parseFloat(amount.value);
+          recipient[0].balance =
+            parseFloat(recipient[0].balance) + parseFloat(amount.value);
+          alert("Money transfer done.");
+        } else {
+          alert("Insufficient balance.");
+        }
+      } else {
+        alert("Sender and receiver cannot be the same person.");
+      }
+    } else {
+      alert("Send money failed.");
+    }
+
+    customerSelectFrom.value = "From...";
+    customerSelectTo.value = "To...";
+    amount.value = null;
+    console.log(customerList);
+  }
+  displayCustomer();
+  event.preventDefault();
+}
