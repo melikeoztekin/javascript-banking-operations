@@ -125,7 +125,11 @@
               <form>
                 <div class="row justify-content-between">
                   <div class="col-12 col-sm-12 col-md-6 col-lg-4 mb-3">
-                    <select class="form-select" id="sellerSelect">
+                    <select
+                      onchange="selectChange()"
+                      class="form-select"
+                      id="sellerSelect"
+                    >
                       <!-- Burada müşteri listesi select içinde görüntülenecek ürün gönderici olarak-->
                     </select>
                   </div>
@@ -139,7 +143,12 @@
                       <!-- Burada seçili müşteriye göre ürün listesi select içinde gelecek -->
                     </select>
                   </div>
-                  <button type="submit" class="btn btn-outline-danger">
+                  <button
+                    type="submit"
+                    class="btn btn-outline-danger"
+                    id="btnExchange"
+                    click="btnExchange()"
+                  >
                     Sell
                   </button>
                 </div>
@@ -258,7 +267,7 @@
             <ol
               class="list-group"
               id="productContainer"
-              style="overflow-y: scroll; height: 350px"
+              style="overflow-y: scroll; height: 325px"
             >
               <!-- Burada ürünlerin listesi ve seçili müşteriye satış işlemi olacak -->
             </ol>

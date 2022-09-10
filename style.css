@@ -67,6 +67,26 @@ a .fa-trash-can {
     color: red
 }
 
+.fa-reply {
+    color: red
+}
+
+.fa-share {
+    color: green;
+}
+
+.fa-cart-arrow-down {
+    color: blueviolet;
+}
+
+.fa-arrow-up {
+    color: blue;
+}
+
+.fa-arrow-down {
+    color: blue;
+}
+
 .customer-list-item {
     cursor: pointer;
 }
